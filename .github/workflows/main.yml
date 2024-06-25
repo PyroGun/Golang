@@ -43,8 +43,6 @@ jobs:
         with:
           # Path to the Dockerfile
           file: "./Dockerfile"
-          # List of metadata for an image
-          labels: pyro366/golang_prac
-          tags: latest
+          tags: pyro366/golang_prac:latest
                 
                 
