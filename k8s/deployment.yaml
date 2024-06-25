@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: my-svc
-        image: pyro366/golang_prac:latest
+        image: pyro366/golang_prac:v2
         resources:
           limits:
             memory: "128Mi"

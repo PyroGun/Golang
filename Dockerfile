@@ -1,11 +1,26 @@
-FROM golang:latest
+FROM golang:alpine AS builder
 
-COPY . /src
+LABEL stage=gobuilder
 
-WORKDIR /src
-RUN go build -o ./main main.go 
+ENV CGO_ENABLED 0
+
+RUN apk update --no-cache && apk add --no-cache tzdata
+
+WORKDIR /build
+
+ADD go.mod .
+RUN go mod download
+COPY . .
+RUN go build -ldflags="-s -w" -o /app/main main.go
+
 
 FROM scratch
-COPY --from=0 /src/main ./main
-ENTRYPOINT [ "./main" ]
 
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai
+ENV TZ Asia/Shanghai
+
+WORKDIR /app
+COPY --from=builder /app/main /app/main
+
+CMD ["./main"]
