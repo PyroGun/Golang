@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-svc
+spec:
+  selector:
+    matchLabels:
+      app: my-svc
+  template:
+    metadata:
+      labels:
+        app: my-svc
+    spec:
+      containers:
+      - name: my-svc
+        image: pyro366/golang_prac:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
