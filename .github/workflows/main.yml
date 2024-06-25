@@ -43,6 +43,7 @@ jobs:
         with:
           # Path to the Dockerfile
           file: "./Dockerfile"
+          push: true
           tags: pyro366/golang_prac:latest
                 
                 
